@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>🌟 Fun To-Do App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-light" id="body">
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>📋 To-Do List</h2>
+        <button class="btn btn-dark" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+    </div>
+
+    <form method="POST" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="task" class="form-control" placeholder="Add a new task ✏️" required>
+            <input type="date" name="due" class="form-control">
+            <button class="btn btn-primary">Add ➕</button>
+        </div>
+    </form>
+
+    <ul class="list-group">
+        {% for task in tasks %}
+        <li class="list-group-item d-flex justify-content-between align-items-center {% if task.done %}list-group-item-success{% endif %}">
+            <span>
+                {% if task.done %}✅{% else %}🔜{% endif %}
+                <strong>{{ task.task }}</strong>
+                {% if task.due %}<small class="text-muted">(Due: {{ task.due }})</small>{% endif %}
+            </span>
+            <span>
+                {% if not task.done %}
+                    <a href="{{ url_for('complete', task_id=loop.index0) }}" class="btn btn-success btn-sm">✔️ Done</a>
+                {% endif %}
+                <a href="{{ url_for('delete', task_id=loop.index0) }}" class="btn btn-danger btn-sm">🗑️ Delete</a>
+            </span>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <div class="mt-4">
+        <h5>🏆 Achievements Unlocked: {{ achievements }}</h5>
+    </div>
+</div>
+
+<script>
+function toggleDarkMode() {
+    document.getElementById("body").classList.toggle("bg-dark");
+    document.getElementById("body").classList.toggle("text-white");
+}
+</script>
+</body>
+</html>

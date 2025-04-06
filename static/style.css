@@ -1,0 +1,8 @@
+body.dark-mode {
+    background-color: #121212;
+    color: #fff;
+}
+
+input, .btn, .list-group-item {
+    border-radius: 10px !important;
+}
